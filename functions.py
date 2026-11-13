@@ -51,5 +51,19 @@ def animate_evolution(xspace, tspace, states, interval=100, y_limits=(0.5, 2.5))
         blit=True
     )
 
-    plt.show()
+    # Detect a Jupyter notebook kernel
+    try:
+        from IPython import get_ipython
+        in_notebook = getattr(get_ipython(), "kernel", None) is not None
+    except ImportError:
+        in_notebook = False
+
+    if in_notebook:
+        from IPython.display import HTML, display
+
+        plt.close(fig)
+        display(HTML(anim.to_jshtml()))
+    else:
+        plt.show()
+
     return anim
